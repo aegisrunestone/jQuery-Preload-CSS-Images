@@ -23,7 +23,8 @@
 		statusTextEl: null,
 		statusBarEl: null,
 		errorDelay: 999, // handles 404-Errors in IE
-		simultaneousCacheLoading: 2
+		simultaneousCacheLoading: 2,
+		callback: null
 	}, settings);
 	var allImgs = [],
 		loaded = 0,
@@ -31,6 +32,7 @@
 		thisSheetRules,	
 		errorTimer;
 	
+	//console.log(typeof settings);
 	function onImgComplete(){
 		clearTimeout(errorTimer);
 		if (imgUrls && imgUrls.length && imgUrls[loaded]) {
@@ -45,6 +47,7 @@
 				var barWidth = jQuery(settings.statusBarEl).width();
 				jQuery(settings.statusBarEl).css('background-position', -(barWidth - (barWidth * loaded / imgUrls.length).toFixed(0)) + 'px 50%');
 			}
+			if ((loaded >= imgUrls.length) && (settings.callback)) { settings.callback(); }
 			loadImgs();
 		}
 	}
